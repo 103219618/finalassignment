@@ -1,3 +1,6 @@
+using System;
+using System.Data.SqlClient;
+
 namespace API.models
 {
     public class Movie
@@ -23,14 +26,54 @@ namespace API.models
             this.Runtime = runtime;
         }
 
-        public int NumActors(int total)
+        public int NumActors(int movieno)
         {
+            //connect to an sql server database
+            string connectionString = @"csharp.czit4bgdokjy.us-east-1.rds.amazonaws.com; Initial Catalog=csharp;User ID=admin;Password=databaseconnection";
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            //creating query
+            string queryString = "SELECT COUNT(MOVIENO) FROM CASTING WHERE MOVIENO ='" + MovieNo + "' GROUP BY MOVIENO";
+
+            //sending queries via the connection
+            SqlCommand command = new SqlCommand (queryString, conn);
+            //opening the connection
+            conn.Open();
             
+            int actorCount = 0;
+            using(SqlDataReader reader = command.ExecuteReader())
+            {   
+                while (reader.Read())
+                {
+                    actorCount = Convert.ToInt32(reader[0]);                
+                }
+            }
+
+            return actorCount;
+
         }
 
-        public int GetAge()
+        public int GetAge(int movieno)
         {
-            
+            string connectionString = @"csharp.czit4bgdokjy.us-east-1.rds.amazonaws.com; Initial Catalog=csharp;User ID=admin;Password=databaseconnection";
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string queryString = @"SELECT (YEAR(GETDATE()) - RELYEAR) AS GETAGE
+                                    FROM MOVIE
+                                    WHERE MOVIENO ='" + movieno + "'";
+
+            SqlCommand command = new SqlCommand (queryString, conn);
+            conn.Open();
+
+            int movieAge = 0;
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    movieAge = Convert.ToInt32(reader[0]);
+                }
+            }
+            return movieAge;
         }
     }
 }

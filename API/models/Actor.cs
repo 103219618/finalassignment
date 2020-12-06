@@ -1,3 +1,6 @@
+using System;
+using System.Data.SqlClient;
+
 namespace API.models
 {
     public class Actor
@@ -25,7 +28,7 @@ namespace API.models
 
         public string setFullName(string givenname, string surname)
         {
-            return(givenname + "" + surname);
+            return(givenname + " " + surname);
         }
     }
 }
