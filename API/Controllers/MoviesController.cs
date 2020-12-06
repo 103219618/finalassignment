@@ -141,29 +141,108 @@ namespace API.Controllers
 
         //READ TASK - 4
         // total runtime of all the movies
-        [HttpGet("totalruntime")]
-        public List<Movie> TotalRuntime()
-        {
+         [HttpGet("totalruntime")]
+        public string TotalRuntime(){
+
+            string Movielist = "";
+
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string queryString = @" SELECT (SUM(RUNTIME)) AS 'TOTAL RUNTIME OF ALL THE MOVIES IN THE LIST'
+                                    FROM MOVIE";
+
+            SqlCommand command = new SqlCommand( queryString, conn);
+            conn.Open();
+    
+            using(SqlDataReader reader = command.ExecuteReader())
+            {   
+                while (reader.Read())
+                {
+                    Movielist = "The Total Run Time Of All The Movies is: " + (reader[0]).ToString();
+                }
+            }
+
+            return Movielist;
+
+        }
+
+        //UPDATE TASK - 1
+        // update the runtime of a movie by title
+        [HttpPost("updateruntime/{movieTitle}/{newRuntime}")]
+        public List<Movie> UpdateRuntime(string movieTitle, int newRuntime){
 
             List<Movie> Movies = new List<Movie>();
 
             SqlConnection conn = new SqlConnection(connectionString);
 
-            string queryString = @"SELECT (SUM(RUNTIME)) AS 'TOTAL RUNTIME OF ALL MOVIES IN THE LIST!' FROM MOVIE";
+            string runtimeUpdater = @" UPDATE MOVIE 
+                                    SET RUNTIME = " + newRuntime + @"   
+                                    WHERE TITLE = '" + movieTitle + "';";            
 
-            SqlCommand command = new SqlCommand( queryString, conn);
+            string displayResult = @" SELECT *
+                                        FROM MOVIE
+                                        WHERE TITLE = '" + movieTitle + "';";
+
+            // SQL Command to update
+            SqlCommand command1 = new SqlCommand( runtimeUpdater, conn);
             conn.Open();
-        
-            string result = "";
+            command1.ExecuteNonQuery();
 
-            using(SqlDataReader reader = command.ExecuteReader())
+            // To display the results
+            SqlCommand command2 = new SqlCommand( displayResult,conn);
+
+            string result = "";
+            using(SqlDataReader reader = command2.ExecuteReader())
             {   
                 while (reader.Read())
                 {
-                    result = "The Total Runtime Of All The Movies In The List is: "+(reader[0]).ToString();
+                    result += reader[0] + " | " + reader[1] + reader[2] + reader[3] + "\n";
+                    
+                    // ORM - Object Relation Mapping
+                    Movies.Add(
+                        new Movie() { MovieNo = Convert.ToInt32(reader[0]), Title = reader[1].ToString(), RelYear = Convert.ToInt32(reader[2]), Runtime = Convert.ToInt32(reader[3])});                
                 }
             }
+            conn.Close();
             return Movies;
+        }
+
+        //UPDATE TASK - 2
+        // changing actors surname and fullname
+        [HttpPost("changename/{givenname}/{surname}/{newsurname}")]
+        public List<Actor> ChangeName(string givenname, string surname, string newsurname){
+            List<Actor> actor = new List<Actor>();
+
+            string space = " ";
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            string changesurname = " UPDATE ACTOR SET SURNAME = '" + newsurname +"', FULLNAME = '"+ givenname + space + newsurname+"' WHERE GIVENNAME ='" + givenname + "' AND SURNAME = '" + surname + "'";            
+            string displayResult = @" SELECT *
+                                        FROM ACTOR
+                                        WHERE GIVENNAME = '"+ givenname +"' AND SURNAME='"+ newsurname +"'";
+        
+            // SQL Command to update
+            SqlCommand command1 = new SqlCommand( changesurname, conn);
+            // making connection open
+            conn.Open();
+
+            command1.ExecuteNonQuery();
+
+            // To display the results
+            SqlCommand command2 = new SqlCommand( displayResult,conn);
+            string result = "";
+            using(SqlDataReader reader = command2.ExecuteReader())
+            {   
+                while (reader.Read())
+                {
+                    result += reader[0] + " | " + reader[1] + reader[2] + reader[3] + "\n";
+                    // ORM - Object Relation Mapping
+                    actor.Add(
+                        new Actor() {ActorNo = Convert.ToInt32(reader[0]), FullName = reader[1].ToString(), GivenName = reader[2].ToString(), SurName = reader[3].ToString()});                
+                }
+            }
+            conn.Close();
+            return actor;
         }
     }
 }
