@@ -138,5 +138,32 @@ namespace API.Controllers
             }
             return Movies;
         }
+
+        //READ TASK - 4
+        // total runtime of all the movies
+        [HttpGet("totalruntime")]
+        public List<Movie> TotalRuntime()
+        {
+
+            List<Movie> Movies = new List<Movie>();
+
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string queryString = @"SELECT (SUM(RUNTIME)) AS 'TOTAL RUNTIME OF ALL MOVIES IN THE LIST!' FROM MOVIE";
+
+            SqlCommand command = new SqlCommand( queryString, conn);
+            conn.Open();
+        
+            string result = "";
+
+            using(SqlDataReader reader = command.ExecuteReader())
+            {   
+                while (reader.Read())
+                {
+                    result = "The Total Runtime Of All The Movies In The List is: "+(reader[0]).ToString();
+                }
+            }
+            return Movies;
+        }
     }
 }
