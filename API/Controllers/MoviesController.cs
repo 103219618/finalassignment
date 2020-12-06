@@ -46,6 +46,48 @@ namespace API.Controllers
         }
         */
 
+
+        //EXCEPTION TASK
+        [HttpGet("exceptiontest")]
+        public string exceptiontest(){
+
+            // dummy database connection
+            string connectionString2 = @"Data Source=no.database.here.com; Initial Catalog=Is; User ID=Wally; Password=Where";
+            SqlConnection conn2 = new SqlConnection(connectionString2);
+
+            string queryString = @" SELECT (SUM(RUNTIME)) AS 'TOTAL RUNTIME OF ALL MOVIES'
+                                    FROM MOVIE";
+
+            try {
+                SqlCommand command = new SqlCommand( queryString, conn2);
+                conn2.Open();
+                var result = command.ExecuteNonQuery();
+                return result.ToString();
+
+            } catch (SqlException ex) {
+
+                string Movie = "";
+
+                SqlConnection conn = new SqlConnection(connectionString);
+                conn.Open();
+                SqlCommand command = new SqlCommand( queryString, conn);
+
+                 using(SqlDataReader reader = command.ExecuteReader())
+            {   
+                while (reader.Read())
+                {
+                    Movie = "The Total Run Time Of All The Movies is: " + (reader[0]).ToString();
+                }
+            }
+                return "Database Unavailable..." + ex.Message + "\n...Connection To New Database Successful...\n" + Movie;
+            }
+
+        }
+            
+
+
+
+
         //READ TASK - 1
         [HttpGet("listallmovies")] //testing to list all movies
         public List<Movie> ListMovies()
@@ -141,10 +183,10 @@ namespace API.Controllers
 
         //READ TASK - 4
         // total runtime of all the movies
-         [HttpGet("totalruntime")]
+        [HttpGet("totalruntime")]
         public string TotalRuntime(){
 
-            string Movielist = "";
+            string Movie = "";
 
             SqlConnection conn = new SqlConnection(connectionString);
 
@@ -158,11 +200,11 @@ namespace API.Controllers
             {   
                 while (reader.Read())
                 {
-                    Movielist = "The Total Run Time Of All The Movies is: " + (reader[0]).ToString();
+                    Movie = "The Total Run Time Of All The Movies is: " + (reader[0]).ToString();
                 }
             }
 
-            return Movielist;
+            return Movie;
 
         }
 
