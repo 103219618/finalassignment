@@ -310,6 +310,31 @@ namespace API.Controllers
 
         //CREATE TASK - 3
         // casting an actor to a movie
-        
+        [HttpPost("castactor")]
+        public string CastActor(Casting c)
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string queryString = "INSERT INTO CASTING (CASTID, ACTORNO, MOVIENO) VALUES (@cID, @cActNo , @cMovNo)";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            
+            command.Parameters.AddWithValue("@cID", c.CastID);
+            command.Parameters.AddWithValue("@cActNo", c.ActorNo);
+            command.Parameters.AddWithValue("@cMovNo", c.MovieNo);
+
+            conn.Open();
+            
+            var result = command.ExecuteNonQuery();
+            
+            return "Actor Casted to a Movie. " + result + " Row is Added to the Casting Table!";
+        }
+        /* tested by adding this
+        {
+            "CastID": 3000,
+            "ActorNo": 101,
+            "MovieNo": 20
+        }
+        */
     }
 }
