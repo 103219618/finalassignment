@@ -222,7 +222,7 @@ namespace API.Controllers
                                         WHERE GIVENNAME = '"+ givenname +"' AND SURNAME='"+ newsurname +"'";
         
             // SQL Command to update
-            SqlCommand command1 = new SqlCommand( changesurname, conn);
+            SqlCommand command1 = new SqlCommand(changesurname, conn);
             // making connection open
             conn.Open();
 
@@ -244,5 +244,68 @@ namespace API.Controllers
             conn.Close();
             return actor;
         }
+
+        //CREATE TASK - 1
+        // add a movie to the list of movies
+        [HttpPost("addmovie")]
+        public string AddMovie(Movie Mov)
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string queryString = "INSERT INTO MOVIE (MOVIENO, TITLE, RELYEAR, RUNTIME) VALUES (@movNo, @movTitle , @movRelYear ,@movRuntime)";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            
+            command.Parameters.AddWithValue("@movNo", Mov.MovieNo);
+            command.Parameters.AddWithValue("@movTitle", Mov.Title);
+            command.Parameters.AddWithValue("@movRelYear", Mov.RelYear);
+            command.Parameters.AddWithValue("@movRuntime", Mov.Runtime);
+
+            conn.Open();
+            
+            var result = command.ExecuteNonQuery();
+            
+            return "Movie Added. " + result + " Row is Added to the Table!";
+        }
+
+        /* tested by adding this
+        {
+            "MovieNo": 20,
+            "Title": "TEST",
+            "RelYear": 2020,
+            "Runtime": 200
+        }
+        */
+
+        //CREATE TASK - 2
+        // add an actor to the list of actors
+        [HttpPost("addactor")]
+        public string AddActor(Actor Act)
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string queryString = "INSERT INTO ACTOR (ACTORNO, FULLNAME, GIVENNAME, SURNAME) VALUES (@actNo, @actFname , @actGname ,@actSname)";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            
+            command.Parameters.AddWithValue("@actNo", Act.ActorNo);
+            command.Parameters.AddWithValue("@actFname", Act.FullName);
+            command.Parameters.AddWithValue("@actGname", Act.GivenName);
+            command.Parameters.AddWithValue("@actSname", Act.SurName);
+
+            conn.Open();
+            
+            var result = command.ExecuteNonQuery();
+            
+            return "Actor Added. " + result + " Row is Added to the Actor Table!";
+        }
+        /* tested by adding this
+        {
+            "ActorNo": 101,
+            "FullName": "MISTER TEST",
+            "GivenName": "MISTER",
+            "Surname": "TEST"
+        }
+        */
     }
 }
