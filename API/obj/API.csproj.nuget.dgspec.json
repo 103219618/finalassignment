@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/syedasimrazvi/Desktop/finalassignment/api/api.csproj": {}
+    "/Users/syedasimrazvi/Desktop/finalassignment/API/API.csproj": {}
   },
   "projects": {
-    "/Users/syedasimrazvi/Desktop/finalassignment/api/api.csproj": {
+    "/Users/syedasimrazvi/Desktop/finalassignment/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/syedasimrazvi/Desktop/finalassignment/api/api.csproj",
-        "projectName": "api",
-        "projectPath": "/Users/syedasimrazvi/Desktop/finalassignment/api/api.csproj",
+        "projectUniqueName": "/Users/syedasimrazvi/Desktop/finalassignment/API/API.csproj",
+        "projectName": "API",
+        "projectPath": "/Users/syedasimrazvi/Desktop/finalassignment/API/API.csproj",
         "packagesPath": "/Users/syedasimrazvi/.nuget/packages/",
-        "outputPath": "/Users/syedasimrazvi/Desktop/finalassignment/api/obj/",
+        "outputPath": "/Users/syedasimrazvi/Desktop/finalassignment/API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/syedasimrazvi/.nuget/NuGet/NuGet.Config"

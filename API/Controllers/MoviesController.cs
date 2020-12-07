@@ -55,8 +55,7 @@ namespace API.Controllers
             string connectionString2 = @"Data Source=no.database.here.com; Initial Catalog=Is; User ID=Wally; Password=Where";
             SqlConnection conn2 = new SqlConnection(connectionString2);
 
-            string queryString = @" SELECT (SUM(RUNTIME)) AS 'TOTAL RUNTIME OF ALL MOVIES'
-                                    FROM MOVIE";
+            string queryString = @"SELECT (COUNT(MOVIENO)) FROM MOVIE";
 
             try {
                 SqlCommand command = new SqlCommand( queryString, conn2);
@@ -76,10 +75,10 @@ namespace API.Controllers
             {   
                 while (reader.Read())
                 {
-                    Movie = "The Total Run Time Of All The Movies is: " + (reader[0]).ToString();
+                    Movie = "The Total Number Of Movies In The List Are: " + (reader[0]).ToString();
                 }
             }
-                return "Database Unavailable..." + ex.Message + "\n...Connection To New Database Successful...\n" + Movie;
+                return "Database Unavailable...\n" + ex.Message + "\n...Connection To New Database Successful...\n" + Movie;
             }
 
         }

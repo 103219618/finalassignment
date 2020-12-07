@@ -29,11 +29,11 @@ namespace API.models
         public int NumActors(int movieno)
         {
             //connect to an sql server database
-            string connectionString = @"csharp.czit4bgdokjy.us-east-1.rds.amazonaws.com; Initial Catalog=csharp;User ID=admin;Password=databaseconnection";
+            string connectionString = @"Data Source=csharp.czit4bgdokjy.us-east-1.rds.amazonaws.com;Initial Catalog=Movies;User ID=admin;Password=databaseconnection";
             SqlConnection conn = new SqlConnection(connectionString);
 
             //creating query
-            string queryString = "SELECT COUNT(MOVIENO) FROM CASTING WHERE MOVIENO ='" + MovieNo + "' GROUP BY MOVIENO";
+            string queryString = @"SELECT COUNT(MOVIENO) FROM CASTING WHERE MOVIENO ='" + movieno + "' GROUP BY MOVIENO";
 
             //sending queries via the connection
             SqlCommand command = new SqlCommand (queryString, conn);
@@ -55,7 +55,7 @@ namespace API.models
 
         public int GetAge(int movieno)
         {
-            string connectionString = @"csharp.czit4bgdokjy.us-east-1.rds.amazonaws.com; Initial Catalog=csharp;User ID=admin;Password=databaseconnection";
+            string connectionString = @"Data Source=csharp.czit4bgdokjy.us-east-1.rds.amazonaws.com;Initial Catalog=Movies;User ID=admin;Password=databaseconnection";
             SqlConnection conn = new SqlConnection(connectionString);
 
             string queryString = @"SELECT (YEAR(GETDATE()) - RELYEAR) AS GETAGE

@@ -20,31 +20,32 @@ namespace TEST
         }
 
         [Theory]
-        [InlineData(1,21)]
-        [InlineData(1,22)]
-        [InlineData(1,23)]
-        [InlineData(1,24)]
+        [InlineData(4,22)]
+        [InlineData(6,24)]
+        [InlineData(4,70)]
+        [InlineData(1,77)]
         public void NumActorsTest2(int expected, int movieno)
         {
             Assert.Equal(expected, x.NumActors(movieno));
         }
 
-        //Task b, checking correct output for GetAge method
+        //Task b, checking correct output for GetAge method to check how old movie
         [Fact]
         public void GetAgeTest1()
         {
             int movieno = 20;
-            Assert.Equal(20, x.GetAge(movieno));
+            Assert.Equal(0, x.GetAge(movieno));
         }
 
         [Theory]
-        [InlineData(15,21)]
-        [InlineData(16,22)]
-        [InlineData(20,23)]
-        [InlineData(21,24)]
+        [InlineData(15,22)]
+        [InlineData(16,24)]
+        [InlineData(20,70)]
+        [InlineData(17,77)]
         public void GetAgeTest2(int expected, int movieno)
         {
             Assert.Equal(expected, x.GetAge(movieno));
         }
+
     }
 }
