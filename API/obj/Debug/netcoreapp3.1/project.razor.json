@@ -1,5 +1,5 @@
 {
-  "FilePath": "/Users/syedasimrazvi/Desktop/finalassignment/API/API.csproj",
+  "FilePath": "/Users/syedasimrazvi/Desktop/finalassignment/api/api.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14389,7 +14389,7 @@
     ],
     "CSharpLanguageVersion": 800
   },
-  "RootNamespace": "API",
+  "RootNamespace": "api",
   "Documents": [],
   "SerializationFormat": "0.2"
 }

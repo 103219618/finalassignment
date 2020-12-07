@@ -14,8 +14,8 @@ namespace TEST
         [Fact]
         public void NumActorsTest1()
         {
-            int MovieNo = 20;
-            Assert.Equal(1, m.NumActors(MovieNo));
+            int movieno = 20;
+            Assert.Equal(1, m.NumActors(movieno));
         }
 
         [Theory]
